@@ -36,7 +36,7 @@ spec:
         Effect: "NoSchedule"
       containers:
       - name: aspnex472
-        image: nexus-registry-ci-cd.apps.cluster-bkk-8045.bkk-8045.sandbox697.opentlc.com/aspnetapp:4.7.2
+        image: nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
         imagePullPolicy: IfNotPresent        
       nodeSelector:
         beta.kubernetes.io/os: windows
