@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: asp35
+  labels:
+    app: asp35
+spec:
+  ports:
+    # the port that this service should serve on
+  - port: 80
+    targetPort: 80
+  selector:
+    app: asp35
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: asp35
+  name: asp35
+spec:
+  selector:
+    matchLabels:
+      app: asp35
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: asp35
+      name: asp35
+    spec:
+      tolerations:
+      - key: "os"
+        value: "Windows"
+        Effect: "NoSchedule"
+      containers:
+      - name: asp35
+        image: chatapazar/aspnetapp:3.5
+        imagePullPolicy: IfNotPresent        
+      nodeSelector:
+        beta.kubernetes.io/os: windows

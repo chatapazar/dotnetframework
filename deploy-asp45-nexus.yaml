@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspnex45
+  labels:
+    app: aspnex45
+spec:
+  ports:
+    # the port that this service should serve on
+  - port: 80
+    targetPort: 80
+  selector:
+    app: aspnex45
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: aspnex45
+  name: aspnex45
+spec:
+  selector:
+    matchLabels:
+      app: aspnex45
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: aspnex45
+      name: aspnex45
+    spec:
+      tolerations:
+      - key: "os"
+        value: "Windows"
+        Effect: "NoSchedule"
+      containers:
+      - name: aspnex45
+        image: nexus-registry-ci-cd.apps.cluster-bkk-8045.bkk-8045.sandbox697.opentlc.com/aspnetapp:4.5
+        imagePullPolicy: IfNotPresent        
+      nodeSelector:
+        beta.kubernetes.io/os: windows

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: asp472
+  labels:
+    app: asp472
+spec:
+  ports:
+    # the port that this service should serve on
+  - port: 80
+    targetPort: 80
+  selector:
+    app: asp472
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: asp472
+  name: asp472
+spec:
+  selector:
+    matchLabels:
+      app: asp472
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: asp472
+      name: asp472
+    spec:
+      tolerations:
+      - key: "os"
+        value: "Windows"
+        Effect: "NoSchedule"
+      containers:
+      - name: asp472
+        image: chatapazar/aspnetapp:4.7.2
+        imagePullPolicy: IfNotPresent        
+      nodeSelector:
+        beta.kubernetes.io/os: windows
