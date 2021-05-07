@@ -32,9 +32,12 @@
       ~~~sh
       F:\workspace\dotnetframework
       ~~~
-6. Install Docker Desktop for Windows, set to Windows Container
-7. Pull local Docker base image mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
-8. Install OC CLI for windows
+6. Developer Laptop OS: Windows 10 Pro
+7. Install Docker Desktop for Windows, set to Windows Container
+8. Pull local Docker base image mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
+9. Install OC CLI for windows
+10. Install Visual Studio 2019
+   - Install .NET Framework 3.5, 4.7, 4.8 Based On Your Requirement
 
 ## Build .NET Framework
 
