@@ -17,10 +17,10 @@
     - redeploy if it not success, becouse deploy wrong node --> windows
     - set new password admin/admin
     - set allow anonymous access
-3. Prepull image
+3. Prepull image with docker desktop for windows
    - Instruction http://people.redhat.com/chernand/windows-containers-quickstart/predeploy-steps/
       ~~~sh
-      $ docker pull mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019 with docker desktop for windows
+      $ docker pull mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019 
       ~~~
 4. build & push image to nexus before demo (case networkslow)
       ~~~sh
