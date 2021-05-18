@@ -3,6 +3,7 @@
 
 - [.NET Framework on K8S](#net-framework-on-k8s)
   - [Prerequisites](#prerequisites)
+  - [Review Windows Container Node](#review-windows-container-node)
   - [Build .NET Framework](#build-net-framework)
   - [Build .NET Framework Windows Container (Docker)](#build-net-framework-windows-container-docker)
 - [review deploy-asp472-nexus.yaml, change nexus registry](#review-deploy-asp472-nexusyaml-change-nexus-registry)
@@ -38,6 +39,12 @@
 9. Install OC CLI for windows
 10. Install Visual Studio 2019
    - Install .NET Framework 3.5, 4.7, 4.8 Based On Your Requirement
+
+## Review Windows Container Node
+
+- login to openshift console
+- go to node, view linux node, view windows node
+- view OS, OS Image, Container Runtimes
 
 ## Build .NET Framework
 
