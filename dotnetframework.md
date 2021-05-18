@@ -8,6 +8,7 @@
   - [Build .NET Framework Windows Container (Docker)](#build-net-framework-windows-container-docker)
 - [review deploy-asp472-nexus.yaml, change nexus registry](#review-deploy-asp472-nexusyaml-change-nexus-registry)
 - [edit yaml change image value before run](#edit-yaml-change-image-value-before-run)
+- [show node selector windows](#show-node-selector-windows)
 
 <!-- /TOC -->
 ## Prerequisites
@@ -97,6 +98,7 @@ $ oc create secret docker-registry nexus --docker-server=nexus-registry-ci-cd.ap
 $ oc secrets link default nexus --for=pull
 $ oc secrets link deployer nexus --for=pull  
 # edit yaml change image value before run
+# show node selector windows
 $ oc create -f .\deploy-asp472-nexus.yaml
 $ oc expose svc aspnex472
 ~~~
