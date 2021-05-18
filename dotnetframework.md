@@ -39,6 +39,7 @@
 9. Install OC CLI for windows
 10. Install Visual Studio 2019
    - Install .NET Framework 3.5, 4.7, 4.8 Based On Your Requirement
+11. add nuget manage to https://packages.nuget.org/v1/FeedService.svc/
 
 ## Review Windows Container Node
 
