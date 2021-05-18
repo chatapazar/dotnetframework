@@ -24,7 +24,7 @@
       ~~~
 4. build & push image to nexus before demo (case networkslow)
       ~~~sh
-      $ oc login nexus-registry-ci-cd.apps.cluster-xxx.opentlc.com
+      $ docker login nexus-registry-ci-cd.apps.cluster-xxx.opentlc.com
       #input user/password admin/admin
       $ docker push nexus-registry-ci-cd.apps.cluster-xxx.opentlc.com/aspnetapp:4.7.2
       ~~~
