@@ -40,6 +40,7 @@
 10. Install Visual Studio 2019
    - Install .NET Framework 3.5, 4.7, 4.8 Based On Your Requirement
 11. add nuget manage to https://packages.nuget.org/v1/FeedService.svc/
+12. restore with nuget manager in visual studio before demo
 
 ## Review Windows Container Node
 
