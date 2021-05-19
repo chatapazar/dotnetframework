@@ -9,6 +9,7 @@
 - [review deploy-asp472-nexus.yaml, change nexus registry](#review-deploy-asp472-nexusyaml-change-nexus-registry)
 - [edit yaml change image value before run](#edit-yaml-change-image-value-before-run)
 - [show node selector windows](#show-node-selector-windows)
+- [show taint/toleration](#show-tainttoleration)
 
 <!-- /TOC -->
 ## Prerequisites
@@ -98,7 +99,25 @@ $ oc create secret docker-registry nexus --docker-server=nexus-registry-ci-cd.ap
 $ oc secrets link default nexus --for=pull
 $ oc secrets link deployer nexus --for=pull  
 # edit yaml change image value before run
+###############################
 # show node selector windows
+# show taint/toleration
+###############################
 $ oc create -f .\deploy-asp472-nexus.yaml
 $ oc expose svc aspnex472
+~~~
+
+- example taint/toleration
+~~~yaml
+    spec:
+      tolerations:
+      - key: "os"
+        value: "Windows"
+        Effect: "NoSchedule"
+      containers:
+      - name: aspnex472
+        image: nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
+        imagePullPolicy: IfNotPresent        
+      nodeSelector:
+        beta.kubernetes.io/os: windows
 ~~~
