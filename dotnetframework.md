@@ -108,6 +108,7 @@ $ oc expose svc aspnex472
 ~~~
 
 - example taint/toleration
+- show taint in windows node (openshift admin console ui)
 ~~~yaml
     spec:
       tolerations:
