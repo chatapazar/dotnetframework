@@ -79,6 +79,7 @@
 - show Dockerfile in visual studio (select show all file in solution explorer)
   - Review Dockerfile
 - go to WebApplication2 command line
+- test docker run with docker dashboard set port 8080
 ~~~sh
 #Create Docker Image
 $ cd WebApplication2
