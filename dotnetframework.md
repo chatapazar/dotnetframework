@@ -66,6 +66,7 @@
 - click run IIS Express, review, close browser
 
 ## Build .NET Framework Windows Container (Docker)
+- switch docker to windows container mode before build and run this step!!!
 - click publish at project, publish to folder --> click publish
 - publish to docker hub (option) https://docs.microsoft.com/en-us/visualstudio/containers/deploy-docker-hub?view=vs-2019
 - login to openshift (with windows node)
