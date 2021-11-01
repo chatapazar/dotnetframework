@@ -7,6 +7,9 @@
   - [Build .NET Framework](#build-net-framework)
   - [Build .NET Framework Windows Container (Docker)](#build-net-framework-windows-container-docker)
 - [review deploy-asp472-nexus.yaml, change nexus registry](#review-deploy-asp472-nexusyaml-change-nexus-registry)
+- [edit yaml change image value before run](#edit-yaml-change-image-value-before-run)
+- [show node selector windows](#show-node-selector-windows)
+- [show taint/toleration](#show-tainttoleration)
 
 <!-- /TOC -->
 ## Prerequisites
@@ -40,6 +43,7 @@
 10. Install Visual Studio 2019
    - Install .NET Framework 3.5, 4.7, 4.8 Based On Your Requirement
 11. add nuget manage to https://packages.nuget.org/v1/FeedService.svc/
+12. restore with nuget manager in visual studio before demo
 
 ## Review Windows Container Node
 
@@ -75,6 +79,7 @@
 - show Dockerfile in visual studio (select show all file in solution explorer)
   - Review Dockerfile
 - go to WebApplication2 command line
+- test docker run with docker dashboard set port 8080
 ~~~sh
 #Create Docker Image
 $ cd WebApplication2
@@ -94,6 +99,27 @@ $ oc new-project dotnetframework
 $ oc create secret docker-registry nexus --docker-server=nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com --docker-username=admin --docker-password=admin
 $ oc secrets link default nexus --for=pull
 $ oc secrets link deployer nexus --for=pull  
+# edit yaml change image value before run
+###############################
+# show node selector windows
+# show taint/toleration
+###############################
 $ oc create -f .\deploy-asp472-nexus.yaml
 $ oc expose svc aspnex472
+~~~
+
+- example taint/toleration
+- show taint in windows node (openshift admin console ui)
+~~~yaml
+    spec:
+      tolerations:
+      - key: "os"
+        value: "Windows"
+        Effect: "NoSchedule"
+      containers:
+      - name: aspnex472
+        image: nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
+        imagePullPolicy: IfNotPresent        
+      nodeSelector:
+        beta.kubernetes.io/os: windows
 ~~~
