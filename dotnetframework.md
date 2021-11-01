@@ -85,6 +85,8 @@
 #Create Docker Image
 $ cd WebApplication2
 $ docker build -t aspnetapp:4.7.2 .
+$ docker run -it --rm -p 8080:80 aspnetapp:4.7.2
+#ctrl + c for exit
 $ docker tag aspnetapp:4.7.2 nexus-registry-ci-cd.apps.cluster-xxx.xxx.sandbox1123.opentlc.com/aspnetapp:4.7.2
 $ docker login nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com
 #user/password : admin/admin
