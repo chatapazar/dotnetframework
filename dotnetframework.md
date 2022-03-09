@@ -5,11 +5,8 @@
   - [Prerequisites](#prerequisites)
   - [Review Windows Container Node](#review-windows-container-node)
   - [Build .NET Framework](#build-net-framework)
-  - [Build .NET Framework Windows Container (Docker)](#build-net-framework-windows-container-docker)
-- [review deploy-asp472-nexus.yaml, change nexus registry](#review-deploy-asp472-nexusyaml-change-nexus-registry)
-- [edit yaml change image value before run](#edit-yaml-change-image-value-before-run)
-- [show node selector windows](#show-node-selector-windows)
-- [show taint/toleration](#show-tainttoleration)
+  - [Build .NET Framework Windows Container (Build Code with Visual Stuidio and Build image with Docker)](#build-net-framework-windows-container-build-code-with-visual-stuidio-and-build-image-with-docker)
+  - [Build .NET Framework Windows Container (Build code in Docker on your laptop)](#build-net-framework-windows-container-build-code-in-docker-on-your-laptop)
 
 <!-- /TOC -->
 ## Prerequisites
@@ -65,7 +62,8 @@
 - set startup project, right click project set statup
 - click run IIS Express, review, close browser
 
-## Build .NET Framework Windows Container (Docker)
+## Build .NET Framework Windows Container (Build Code with Visual Stuidio and Build image with Docker)
+
 - switch docker to windows container mode before build and run this step!!!
 - click publish at project, publish to folder --> click publish
 - publish to docker hub (option) https://docs.microsoft.com/en-us/visualstudio/containers/deploy-docker-hub?view=vs-2019
@@ -81,48 +79,82 @@
   - Review Dockerfile
 - go to WebApplication2 command line
 - test docker run with docker dashboard set port 8080
-~~~sh
-#Create Docker Image
-$ cd WebApplication2
-$ docker build -t aspnetapp:4.7.2 .
-$ docker run -it --rm -p 8080:80 aspnetapp:4.7.2
-#ctrl + c for exit
-$ docker tag aspnetapp:4.7.2 nexus-registry-ci-cd.apps.cluster-xxx.xxx.sandbox1123.opentlc.com/aspnetapp:4.7.2
-$ docker login nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com
-#user/password : admin/admin
-#show push, don't push at demo time
-$ docker push nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
-~~~
+  ```sh
+  #Create Docker Image
+  $ cd WebApplication2
+  $ docker build -t aspnetapp:4.7.2 .
+  $ docker run -it --rm -p 8080:80 aspnetapp:4.7.2
+  #ctrl + c for exit
+  $ docker tag aspnetapp:4.7.2 nexus-registry-ci-cd.apps.cluster-xxx.xxx.sandbox1123.opentlc.com/aspnetapp:4.7.2
+  $ docker login nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com
+  #user/password : admin/admin
+  #show push, don't push at demo time
+  $ docker push nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
+  ```
 - show docker in nexus
 - deploy
-~~~sh
-$ oc new-project dotnetframework
-# review deploy-asp472-nexus.yaml, change nexus registry
+  ```sh
+  $ oc new-project dotnetframework
+  # review deploy-asp472-nexus.yaml, change nexus registry
 
-$ oc create secret docker-registry nexus --docker-server=nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com --docker-username=admin --docker-password=admin
-$ oc secrets link default nexus --for=pull
-$ oc secrets link deployer nexus --for=pull  
-# edit yaml change image value before run
-###############################
-# show node selector windows
-# show taint/toleration
-###############################
-$ oc create -f .\deploy-asp472-nexus.yaml
-$ oc expose svc aspnex472
-~~~
+  $ oc create secret docker-registry nexus --docker-server=nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com --docker-username=admin --docker-password=admin
+  $ oc secrets link default nexus --for=pull
+  $ oc secrets link deployer nexus --for=pull  
+  # edit yaml change image value before run
+  ###############################
+  # show node selector windows
+  # show taint/toleration
+  ###############################
+  $ oc create -f .\deploy-asp472-nexus.yaml
+  $ oc expose svc aspnex472
+  ```
 
 - example taint/toleration
 - show taint in windows node (openshift admin console ui)
-~~~yaml
-    spec:
-      tolerations:
-      - key: "os"
-        value: "Windows"
-        Effect: "NoSchedule"
-      containers:
-      - name: aspnex472
-        image: nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
-        imagePullPolicy: IfNotPresent        
-      nodeSelector:
-        beta.kubernetes.io/os: windows
-~~~
+  ```yaml
+      spec:
+        tolerations:
+        - key: "os"
+          value: "Windows"
+          Effect: "NoSchedule"
+        containers:
+        - name: aspnex472
+          image: nexus-registry-ci-cd.apps.cluster-kbtg-e44a.kbtg-e44a.sandbox1123.opentlc.com/aspnetapp:4.7.2
+          imagePullPolicy: IfNotPresent        
+        nodeSelector:
+          beta.kubernetes.io/os: windows
+  ```
+
+## Build .NET Framework Windows Container (Build code in Docker on your laptop)
+
+- pull sdk image to your laptop
+  ```ssh
+  docker pull mcr.microsoft.com/dotnet/framework/sdk:4.8
+  ```
+- run docker sdk & mount disk to your code (or use another way to check out source code to your container such as git)
+  ```ssh
+  docker run -v F:\workspace\dotnetframework\WebApplication1:c:\workspace -it --rm mcr.microsoft.com/dotnet/framework/sdk:4.8 cmd.exe 
+  ```
+- after shell in container, go to c:\workspace , run nuget restore at sln path and run publish
+  ```cmd
+  #go to sln path
+  nuget restore
+  #go to your project path such as go to c:\workspace\WebApplication3 , and run msbuild
+  MSBuild WebApplication3.csproj /t:Rebuild /p:Configuration=Release
+  ```
+- prepare Dockerfile , dockerfile example is (create dockerfile at project path)
+  ```Dockerfile
+  FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
+  WORKDIR /inetpub/wwwroot
+  COPY . .
+  COPY ./bin ./bin
+  ```
+- build image
+  ```ssh
+  # go to project path
+  docker build -t aspnetapp:4.7.2 .
+  ```
+- after complete build image, run test in your laptop with
+  ```ssh
+  docker run -it --rm -p 8080:80 aspnetapp:4.7.2
+  ```
