@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet
+  namespace: dotnet-gitops
+  labels:
+    app: dotnet
+spec:
+  ports:
+  - port: 8080
+    name: http
+    targetPort: 8080
+  selector:
+    app: dotnet-gitops
+    version: v1

@@ -1,0 +1,8 @@
+commonLabels:
+  environment: prod
+commonAnnotations:
+  description: This is prod environment
+bases:
+- ../../base
+patchesStrategicMerge:
+- dotnet.yaml

@@ -1,0 +1,6 @@
+resources:
+- namespace.yaml
+- rolebinding.yaml
+- dotnet.yaml
+- dotnet-service.yaml
+- route.yaml

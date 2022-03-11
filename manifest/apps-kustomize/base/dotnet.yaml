@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet
+  namespace: dotnet-gitops
+  labels:
+    app.openshift.io/runtime: dotnet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: dotnet
+        version: v1
+    spec:
+      containers:
+      - name: dotnet
+        image: chatapazar/dotnet:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "0.25"
+            memory: 250Mi
+          limits:
+            cpu: "0.5"
+            memory: 500Mi
+        ports:
+        - containerPort: 8080

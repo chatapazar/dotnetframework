@@ -10,6 +10,7 @@
   - [.NET with Openshift Pipeline (Tekton)](#net-with-openshift-pipeline-tekton)
   - [.NET with OpenShift Service Mesh](#net-with-openshift-service-mesh)
   - [.NET with OpenShift Serverless](#net-with-openshift-serverless)
+  - [.NET with OpenShift GitOps](#net-with-openshift-gitops)
 
 <!-- /TOC -->
 ## Prerequisites
@@ -173,3 +174,8 @@
 - wait until pod running
 - call 1st time to view webpage
 - wait 1 minute for scale down
+
+## .NET with OpenShift GitOps
+
+PASSWORD=$(oc extract secret/openshift-gitops-cluster -n openshift-gitops --to=-) 2>/dev/null
+echo $PASSWORD
