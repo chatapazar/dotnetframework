@@ -11,5 +11,5 @@ spec:
     name: http
     targetPort: 8080
   selector:
-    app: dotnet-gitops
+    app: dotnet
     version: v1
