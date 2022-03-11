@@ -177,5 +177,32 @@
 
 ## .NET with OpenShift GitOps
 
-PASSWORD=$(oc extract secret/openshift-gitops-cluster -n openshift-gitops --to=-) 2>/dev/null
-echo $PASSWORD
+- review kustomize configuration format from --> https://github.com/chatapazar/dotnetframework, 
+  ![](images/gitops_kustomize.png)
+  - manifest/apps-kustomize/base
+  - manifest/apps-kustomize/overlays/dev
+- login to OpenShift GitOps, user: admin, password -->
+  ```bash
+  PASSWORD=$(oc extract secret/openshift-gitops-cluster -n openshift-gitops --to=-) 2>/dev/null
+  echo $PASSWORD
+  ```
+- create application
+  - application name: dotnet-gitops
+  - project: default
+  - sync policy: manual
+  - repository url: https://github.com/chatapazar/dotnetframework
+  - revision: HEAD
+  - path: manifest/apps-kustomize/overlays/dev
+  - destination: <your cluster>
+  - namespace: dotnet-gitops
+  - configuration resource: kustomize
+  - click create
+- review deployment configuration
+  ![](images/gitops_1.png)
+- click sync for deploy
+  ![](images/gitops_2.png)
+- test with curl command
+  ```bash
+  curl http://url/products
+  ```
+- try scale down dotnet pod to 1, and check diff in gitops, resync again for enforce correct configuration to cluster
