@@ -15,7 +15,7 @@ spec:
         host: sa-logic
         subset: v2
       weight: 50
-    timeout: 8s           # 1
+    timeout: 8s           
     retries:
-      attempts: 3         # 2
-      perTryTimeout: 3s   # 3
+      attempts: 3         
+      perTryTimeout: 3s   
